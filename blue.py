@@ -6,6 +6,7 @@ Created on Sun Dec  8 19:12:17 2019
 """
 
 from gtts import gTTS
+from datetime import time
 import speech_recognition as sr
 from pygame import mixer
 import random
@@ -50,6 +51,12 @@ def blue(command):
     ]
     if 'hello' in command:
         talk('Hello! I am blue. How can I help you?')
+        
+    elif 'test' in command:
+        talk('Test! Test! Test!')
+        
+    elif 'blue time primary' in command:
+        talk('Start time noted @' + time())
     else:
         error = random.choice(errors)
         talk(error)
