@@ -5,11 +5,22 @@ Created on Sun Dec  8 19:12:17 2019
 @author: lux-coder
 """
 
-from gtts import gTTS
-from datetime import time
 import speech_recognition as sr
-from pygame import mixer
 import random
+import re
+import webbrowser
+
+from gtts import gTTS
+from datetime import datetime
+from pygame import mixer
+
+import openpyxl
+
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+
+
+
 def talk(audio):
     print(audio)
     for line in audio.splitlines():
@@ -55,8 +66,29 @@ def blue(command):
     elif 'test' in command:
         talk('Test! Test! Test!')
         
-    elif 'blue time primary' in command:
-        talk('Start time noted @' + time())
+    elif 'start primary' in command:
+        nowStart = datetime.now()
+        print(nowStart)
+        dt_stringStart = nowStart.strftime("%H:%M")
+        print(dt_stringStart)
+        talk('Start time noted @' + dt_stringStart)
+        book = openpyxl.load_workbook('timeing.xlsx')
+        sheet = book.active
+        sheet.append([nowStart])
+        book.save('timeing.xlsx')
+        
+        
+        
+    elif 'stop primary' in command:
+        nowStop = datetime.now()
+        print(nowStop)
+        dt_stringStop = nowStop.strftime("%H:%M")
+        talk('Stop time noted @' + dt_stringStop)
+        book = openpyxl.load_workbook('timeing.xlsx')
+        sheet = book.active
+        sheet.append([nowStop])
+        book.save('timeing.xlsx')
+
     else:
         error = random.choice(errors)
         talk(error)
